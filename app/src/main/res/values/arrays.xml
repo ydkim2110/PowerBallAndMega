@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="game_tile">
+        <item>Number Generator</item>
+        <item>Roulette</item>
+        <item>Scratch</item>
+        <item>Slot</item>
+    </string-array>
+
+    <string-array name="game_image">
+        <item>@drawable/ic_generator</item>
+        <item>@drawable/ic_roulette</item>
+        <item>@drawable/ic_scratch</item>
+        <item>@drawable/ic_slot</item>
+    </string-array>
+
+</resources>

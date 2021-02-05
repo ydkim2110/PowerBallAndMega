@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.reachfree.powerballandmega">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".PowerMegaApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PowerBallAndMega">
+
+        <activity
+            android:name=".ui.splash.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.savednumber.SavedNumberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.simulation.mega.MegaSimulationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.simulation.power.PowerSimulationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.slot.SlotActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.scratch.ScratchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.roulette.RouletteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.generator.GeneratorActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.megalist.MegaListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.powerlist.PowerListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/ADMOB_ID" />
+    </application>
+
+</manifest>

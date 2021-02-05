@@ -1,0 +1,150 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.PowerBallAndMega" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowDisablePreview">true</item>
+
+        <!-- Customize your theme here. -->
+    </style>
+
+    <!-- Alert Dialog -->
+    <style name="ThemeOverlay.MaterialComponents.MaterialAlertDialog_Background"
+        parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Background Color-->
+        <item name="android:background">@color/colorDialogBackground</item>
+        <!-- Text Color for title and message -->
+        <item name="colorOnSurface">@color/colorTextPrimary</item>
+        <!-- Style for positive button -->
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <!-- Style for negative button -->
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <!-- text color for the button -->
+        <item name="android:textColor">@android:color/holo_red_dark</item>
+        <!-- Background tint for the button -->
+        <item name="backgroundTint">@android:color/transparent</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton.Dialog">
+        <!-- text color for the button -->
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <!-- Background tint for the button -->
+        <item name="backgroundTint">@android:color/transparent</item>
+    </style>
+
+    <style name="GeneratorResultBottomSheet" parent="Theme.MaterialComponents.DayNight.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_bottom_sheet</item>
+    </style>
+
+    <style name="ToolbarStyle">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="NavigationTitle">
+        <item name="android:padding">8dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="NavigationSubTitle">
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="fontFamily">@font/ubuntu_regular</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextGameCategoryTitle">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMinTextSize">16sp</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextEmptyList">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="TextNumberBall">
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextNumberBallMedium">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextNumberBallSmall">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TextSelectNumberBall">
+        <item name="android:layout_width">38dp</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorDarker</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontFamily">@font/ubuntu_medium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+</resources>

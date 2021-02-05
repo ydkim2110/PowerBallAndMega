@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">TopLottery</string>
+    <string name="toast_exit">Press back again to exit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="power_ball">Power Ball</string>
+    <string name="mega_millions">Mega Millions</string>
+    <string name="dialog_update_title">App Update</string>
+    <string name="dialog_update_message">App updated is completed. Press the restart button to use the new function.</string>
+    <string name="dialog_update_positive">restart</string>
+    <string name="text_network_timeout_message">Currently unable to connect.\nPlease try again later.</string>
+</resources>

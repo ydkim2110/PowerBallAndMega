@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/draw_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorToolbar"
+            app:elevation="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:actionBarSize"
+                app:navigationIcon="@drawable/ic_menu">
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:theme="@style/ToolbarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:id="@+id/layout_connected"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:overScrollMode="never"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar"
+            app:layout_constraintBottom_toTopOf="@+id/ad_background">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineTop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_begin="16dp" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="16dp" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="16dp" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guidelineBottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_end="16dp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardview_power_ball"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="200dp"
+                        android:backgroundTint="@color/colorPowerBackground"
+                        app:cardElevation="4dp"
+                        app:cardCornerRadius="16dp"
+                        app:contentPadding="16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/guidelineTop"
+                        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                        app:layout_constraintEnd_toEndOf="@id/guidelineEnd" >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/img_logo_power"
+                                android:layout_width="150dp"
+                                android:layout_height="60dp"
+                                android:src="@drawable/logo_powerball"
+                                android:contentDescription="@string/app_name"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/txt_power_winning_numbers_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                tools:text="Winning Numbers: Sat 01/23/21"
+                                android:textSize="18dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textAlignment="center"
+                                android:fontFamily="@font/ubuntu_medium"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/img_logo_power"
+                                />
+
+                            <LinearLayout
+                                android:id="@+id/layout_power_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingVertical="8dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintTop_toBottomOf="@+id/txt_power_winning_numbers_title">
+
+                                <TextView
+                                    android:id="@+id/txt_power_number1"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_power_number2"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_power_number3"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_power_number4"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_power_number5"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_power_number6"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_power_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_power_multiplier"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="MEGAPLIER 2X"
+                                android:textSize="18dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textAlignment="center"
+                                android:fontFamily="@font/ubuntu_regular"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/layout_power_number"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardview_mega_ball"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:minHeight="200dp"
+                        android:backgroundTint="@color/colorMegaBackground"
+                        app:cardElevation="4dp"
+                        app:cardCornerRadius="16dp"
+                        app:contentPadding="16dp"
+                        app:layout_constraintBottom_toBottomOf="@id/guidelineBottom"
+                        app:layout_constraintTop_toBottomOf="@+id/cardview_power_ball"
+                        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                        app:layout_constraintEnd_toEndOf="@id/guidelineEnd">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/img_logo_mega"
+                                android:layout_width="wrap_content"
+                                android:layout_height="60dp"
+                                android:src="@drawable/logo_megamillions"
+                                android:contentDescription="@string/app_name"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent" />
+
+                            <TextView
+                                android:id="@+id/txt_mega_winning_numbers_title"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:padding="8dp"
+                                tools:text="Winning Numbers: Sat 01/23/21"
+                                android:textSize="18dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:textAlignment="center"
+                                android:fontFamily="@font/ubuntu_medium"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/img_logo_mega"
+                                />
+
+                            <LinearLayout
+                                android:id="@+id/layout_mega_number"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:paddingVertical="8dp"
+                                android:orientation="horizontal"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/txt_mega_winning_numbers_title">
+
+                                <TextView
+                                    android:id="@+id/txt_mega_number1"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_mega_number2"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_mega_number3"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_mega_number4"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_mega_number5"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+                                <Space
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+
+                                <TextView
+                                    android:id="@+id/txt_mega_number6"
+                                    style="@style/TextNumberBallMedium"
+                                    android:background="@drawable/bg_mega_ball"
+                                    android:gravity="center"
+                                    tools:text="1" />
+
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/txt_mega_multiplier"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="MEGAPLIER 2X"
+                                android:textSize="18dp"
+                                android:textStyle="bold"
+                                android:textColor="@color/white"
+                                android:textAlignment="center"
+                                android:fontFamily="@font/ubuntu_regular"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/layout_mega_number"
+                                app:layout_constraintBottom_toBottomOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/layout_disconnected"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" >
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="64dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/wifi_connecting" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No internet connection"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_timeout"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center_horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"  >
+
+            <ImageView
+                android:id="@+id/timeoutImageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_network_timeout"
+                android:alpha="0.5"
+                android:contentDescription="@string/app_name"
+                app:layout_constraintVertical_bias="0.2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/text_network_timeout_message"
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="20sp"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@+id/timeoutImageView"
+                app:layout_constraintEnd_toEndOf="@+id/timeoutImageView"
+                app:layout_constraintTop_toBottomOf="@+id/timeoutImageView"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_home"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.1" />
+
+        <LinearLayout
+            android:id="@+id/ad_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:id="@+id/ad_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/include_drawer"
+        layout="@layout/include_drawer" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

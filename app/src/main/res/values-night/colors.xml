@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorToolbar">#121212</color>
+    <color name="colorStatusBar">#121212</color>
+    <color name="colorBackground">#121212</color>
+
+    <color name="colorScratchBackground">#202124</color>
+    <color name="colorCardBackground">#202124</color>
+    <color name="colorDialogBackground">#202124</color>
+
+    <!-- Text -->
+    <color name="colorTextPrimary">#F1F1F1</color>
+    <color name="colorTextSecondary">#D9D9D9</color>
+
+</resources>
