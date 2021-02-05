@@ -9,4 +9,5 @@
     <string name="dialog_update_message">App updated is completed. Press the restart button to use the new function.</string>
     <string name="dialog_update_positive">restart</string>
     <string name="text_network_timeout_message">Currently unable to connect.\nPlease try again later.</string>
+    <string name="save">save</string>
 </resources>

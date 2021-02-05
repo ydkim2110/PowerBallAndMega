@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.reachfree.powerballandmega.R
 import com.reachfree.powerballandmega.databinding.ItemGeneratorResultBinding
 import com.reachfree.powerballandmega.ui.generator.GeneratedNumber
+import com.reachfree.powerballandmega.utils.toastShort
 
 class SlotAdapter(
     private val type: String
@@ -44,10 +45,16 @@ class SlotAdapter(
                 chkSelect.isChecked = isSelected
                 chkSelect.tag = generatedNumberList[adapterPosition]
                 chkSelect.setOnClickListener { v ->
-                    val cb = v as CheckBox
-                    val list = v.getTag() as GeneratedNumber
-                    list.isSelected = cb.isChecked
-                    generatedNumberList[adapterPosition].isSelected = cb.isChecked
+                    try {
+                        val cb = v as CheckBox
+                        val list = v.getTag() as GeneratedNumber
+                        list.isSelected = cb.isChecked
+                        generatedNumberList[adapterPosition].isSelected = cb.isChecked
+                        onItemClickListener?.let { it(true) }
+                    } catch (e: Exception) {
+                        root.context.toastShort("Unknown error occurred.")
+                    }
+
                 }
             }
         }
@@ -69,6 +76,11 @@ class SlotAdapter(
 
     override fun getItemCount() = generatedNumberList.size
 
+    fun clearData() {
+        generatedNumberList.clear()
+        notifyDataSetChanged()
+    }
+
     fun setData(generatedNumber: GeneratedNumber, index: Int) {
         generatedNumberList.add(index, generatedNumber)
         notifyItemInserted(generatedNumberList.size)
@@ -77,6 +89,12 @@ class SlotAdapter(
     fun getCheckBoxList() = checkBoxList
 
     fun getNumberList() = generatedNumberList
+
+    private var onItemClickListener: ((Boolean) -> Unit)? = null
+
+    fun setOnClickListener(listener: (Boolean) -> Unit) {
+        onItemClickListener = listener
+    }
 
     companion object {
         const val TYPE_POWER = "power"

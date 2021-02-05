@@ -13,7 +13,9 @@ import com.reachfree.powerballandmega.ui.base.BaseActivity
 import com.reachfree.powerballandmega.utils.loadAds
 import com.reachfree.powerballandmega.utils.showADMOB
 import com.reachfree.powerballandmega.utils.showWaitingDialog
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SlotActivity : BaseActivity() {
 
     private var _binding: SlotActivityBinding? = null

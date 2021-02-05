@@ -5,19 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.reachfree.powerballandmega.data.local.LottoEntity
 import com.reachfree.powerballandmega.databinding.SlotMegaFragmentBinding
+import com.reachfree.powerballandmega.ui.bottomsheet.GeneratorResultBottomSheetDialog
 import com.reachfree.powerballandmega.ui.generator.GeneratedNumber
-import com.reachfree.powerballandmega.utils.activateButton
-import com.reachfree.powerballandmega.utils.inActivateButton
-import com.reachfree.powerballandmega.utils.setOnSingleClickListener
+import com.reachfree.powerballandmega.utils.*
+import com.reachfree.powerballandmega.viewmodels.LocalViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 
+@AndroidEntryPoint
 class SlotMegaFragment : Fragment(), ISlotEventEnd {
 
     private var _binding: SlotMegaFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private val localViewModel: LocalViewModel by viewModels()
     private val slotAdapter by lazy { SlotAdapter(SlotAdapter.TYPE_MEGA) }
 
     private lateinit var generatedNumber: GeneratedNumber
@@ -49,6 +54,47 @@ class SlotMegaFragment : Fragment(), ISlotEventEnd {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = slotAdapter
         }
+
+        slotAdapter.setOnClickListener { isClick ->
+            if (isClick) {
+                val count = slotAdapter.getCheckBoxList().count { it.isChecked }
+                if (count < 1) {
+                    binding.btnStart.text = START
+                    return@setOnClickListener
+                }
+
+                binding.btnStart.text = SAVE
+            }
+        }
+    }
+
+    private fun saveGeneratedNumber(generatedNumberList: ArrayList<GeneratedNumber>) {
+        val selectedNumberList = ArrayList<LottoEntity>()
+
+        generatedNumberList.filter { it.isSelected }.map {
+            val lottoEntity = LottoEntity().apply {
+                type = GeneratorResultBottomSheetDialog.TYPE_MEGA
+                category = Constants.CATEGORY_SLOT
+                number1 = it.numbers[0]
+                number2 = it.numbers[1]
+                number3 = it.numbers[2]
+                number4 = it.numbers[3]
+                number5 = it.numbers[4]
+                number6 = it.numbers[5]
+            }
+            selectedNumberList.add(lottoEntity)
+        }
+
+        if (selectedNumberList.isEmpty()) return
+
+        requireContext().toastShort("Saving...")
+
+        runDelayed(500L) {
+            localViewModel.insertLottoList(selectedNumberList)
+            slotAdapter.clearData()
+            index = 0
+            binding.btnStart.text = START
+        }
     }
 
     private fun setupSlot() {
@@ -61,31 +107,36 @@ class SlotMegaFragment : Fragment(), ISlotEventEnd {
             image6.setSlotEventEnd(this@SlotMegaFragment)
 
             btnStart.setOnSingleClickListener {
-                // TODO: 게임 제한하기
-                isAnimated = true
-                generatedNumber = GeneratedNumber(ArrayList())
-                btnStart.inActivateButton()
+                if (btnStart.text == SAVE) {
+                    saveGeneratedNumber(slotAdapter.getNumberList())
 
-                val ranNumber = ArrayList<Int>()
-                ranNumber.clear()
-                for (i in 1..70) {
-                    ranNumber.add(i)
+                } else {
+                    // TODO: 게임 제한하기
+                    isAnimated = true
+                    generatedNumber = GeneratedNumber(ArrayList())
+                    btnStart.inActivateButton()
+
+                    val ranNumber = ArrayList<Int>()
+                    ranNumber.clear()
+                    for (i in 1..70) {
+                        ranNumber.add(i)
+                    }
+                    ranNumber.shuffle()
+
+                    val ranNumberPowerPlay = ArrayList<Int>()
+                    ranNumberPowerPlay.clear()
+                    for (i in 1..25) {
+                        ranNumberPowerPlay.add(i)
+                    }
+                    ranNumberPowerPlay.shuffle()
+
+                    image1.setValueOrdered(Random.nextInt(6), 5, ranNumber[0], SlotAdapter.TYPE_MEGA)
+                    image2.setValueOrdered(Random.nextInt(6), 10, ranNumber[1], SlotAdapter.TYPE_MEGA)
+                    image3.setValueOrdered(Random.nextInt(6), 15, ranNumber[2], SlotAdapter.TYPE_MEGA)
+                    image4.setValueOrdered(Random.nextInt(6), 20, ranNumber[3], SlotAdapter.TYPE_MEGA)
+                    image5.setValueOrdered(Random.nextInt(6), 25, ranNumber[4], SlotAdapter.TYPE_MEGA)
+                    image6.setValueOrdered(Random.nextInt(6), 30, ranNumberPowerPlay[0], SlotAdapter.TYPE_MEGA)
                 }
-                ranNumber.shuffle()
-
-                val ranNumberPowerPlay = ArrayList<Int>()
-                ranNumberPowerPlay.clear()
-                for (i in 1..25) {
-                    ranNumberPowerPlay.add(i)
-                }
-                ranNumberPowerPlay.shuffle()
-
-                image1.setValueOrdered(Random.nextInt(6), 5, ranNumber[0], SlotAdapter.TYPE_MEGA)
-                image2.setValueOrdered(Random.nextInt(6), 10, ranNumber[1], SlotAdapter.TYPE_MEGA)
-                image3.setValueOrdered(Random.nextInt(6), 15, ranNumber[2], SlotAdapter.TYPE_MEGA)
-                image4.setValueOrdered(Random.nextInt(6), 20, ranNumber[3], SlotAdapter.TYPE_MEGA)
-                image5.setValueOrdered(Random.nextInt(6), 25, ranNumber[4], SlotAdapter.TYPE_MEGA)
-                image6.setValueOrdered(Random.nextInt(6), 30, ranNumberPowerPlay[0], SlotAdapter.TYPE_MEGA)
             }
         }
     }
@@ -105,6 +156,8 @@ class SlotMegaFragment : Fragment(), ISlotEventEnd {
     }
 
     companion object {
+        private const val SAVE = "Save"
+        private const val START = "Start"
         var isAnimated = false
         fun newInstance() = SlotMegaFragment()
     }
