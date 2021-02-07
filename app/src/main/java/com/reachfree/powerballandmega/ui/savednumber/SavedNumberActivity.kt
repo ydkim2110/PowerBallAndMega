@@ -13,10 +13,7 @@ import com.reachfree.powerballandmega.ui.savednumber.power.SavedNumberPowerFragm
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SavedNumberActivity : BaseActivity() {
-
-    private var _binding: SavedNumberActivityBinding? = null
-    private val binding get() = _binding!!
+class SavedNumberActivity : BaseActivity<SavedNumberActivityBinding>({ SavedNumberActivityBinding.inflate(it) }) {
 
     override var animationKind = ANIMATION_SLIDE_FROM_RIGHT
 
@@ -24,8 +21,6 @@ class SavedNumberActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = SavedNumberActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         setupToolbar()
         setupGamePager()
@@ -33,7 +28,6 @@ class SavedNumberActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding = null
     }
 
     private fun setupToolbar() {

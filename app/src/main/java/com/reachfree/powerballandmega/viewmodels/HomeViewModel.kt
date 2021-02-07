@@ -24,6 +24,11 @@ class HomeViewModel @ViewModelInject constructor(
     private val dispatchers: DispatcherProvider
 ) : ViewModel() {
 
+    init {
+        getRecentWinningNumbers()
+        getAdvice()
+    }
+
     sealed class PowerBallEvent {
         class Success(val resultList: List<PowerBallResponse>): PowerBallEvent()
         class Failure(val errorText: String): PowerBallEvent()
@@ -115,7 +120,7 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     companion object {
-        private const val TIMEOUT_DELAY = 8000L
+        private const val TIMEOUT_DELAY = 10000L
     }
 
 }

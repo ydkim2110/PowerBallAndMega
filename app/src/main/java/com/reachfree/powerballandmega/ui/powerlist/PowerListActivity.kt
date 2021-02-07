@@ -10,19 +10,14 @@ import com.reachfree.powerballandmega.data.remote.response.PowerBallResponse
 import com.reachfree.powerballandmega.databinding.PowerListActivityBinding
 import com.reachfree.powerballandmega.ui.base.BaseActivity
 
-class PowerListActivity : BaseActivity() {
+class PowerListActivity : BaseActivity<PowerListActivityBinding>({ PowerListActivityBinding.inflate(it) }) {
 
     override var animationKind = ANIMATION_SLIDE_FROM_BOTTOM
-
-    private var _binding: PowerListActivityBinding? = null
-    private val binding get() = _binding!!
 
     private val powerAdapter: PowerListAdapter by lazy { PowerListAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = PowerListActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         setupToolbar()
 
@@ -42,11 +37,6 @@ class PowerListActivity : BaseActivity() {
             powerAdapter.submitList(data!!)
             rvPowerBallList.adapter = powerAdapter
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     private fun setupToolbar() {

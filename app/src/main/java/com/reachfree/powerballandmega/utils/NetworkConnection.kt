@@ -7,13 +7,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.*
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 
 class NetworkConnection(
     private val context: Context
 ) : LiveData<Boolean>() {
 
-    private var cm: ConnectivityManager =
+    private var connectivityManager: ConnectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     private lateinit var networkCallback: ConnectivityManager.NetworkCallback
@@ -23,7 +24,7 @@ class NetworkConnection(
         updateConnection()
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-                cm.registerDefaultNetworkCallback(connectivityManagerCallback())
+                connectivityManager.registerDefaultNetworkCallback(connectivityManagerCallback())
             }
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP -> {
                 lollipopNetworkRequest()
@@ -40,9 +41,9 @@ class NetworkConnection(
     override fun onInactive() {
         super.onInactive()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (networkCallback != null && cm != null) {
+            if (networkCallback != null && connectivityManager != null) {
                 try {
-                    cm.unregisterNetworkCallback(connectivityManagerCallback())
+                    connectivityManager.unregisterNetworkCallback(connectivityManagerCallback())
                 } catch (e: Exception) {
                 }
             }
@@ -57,7 +58,7 @@ class NetworkConnection(
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
             .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
-        cm.registerNetworkCallback(
+        connectivityManager.registerNetworkCallback(
             requestBuilder.build(),
             connectivityManagerCallback()
         )
@@ -92,8 +93,9 @@ class NetworkConnection(
     }
 
     private fun updateConnection() {
-        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         postValue(activeNetwork?.isConnected == true)
     }
+
 
 }

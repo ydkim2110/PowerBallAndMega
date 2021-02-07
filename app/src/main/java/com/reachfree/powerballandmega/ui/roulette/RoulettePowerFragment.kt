@@ -20,16 +20,17 @@ import androidx.fragment.app.viewModels
 import com.reachfree.powerballandmega.R
 import com.reachfree.powerballandmega.data.local.LottoEntity
 import com.reachfree.powerballandmega.databinding.RoulettePowerFragmentBinding
+import com.reachfree.powerballandmega.ui.base.BaseFragment
 import com.reachfree.powerballandmega.ui.bottomsheet.GeneratorResultBottomSheetDialog
 import com.reachfree.powerballandmega.utils.*
+import com.reachfree.powerballandmega.utils.Constants.ROUND_POWER
+import com.reachfree.powerballandmega.utils.Constants.ROUND_POWER_PLAY
+import com.reachfree.powerballandmega.utils.Constants.TYPE_POWER
 import com.reachfree.powerballandmega.viewmodels.LocalViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RoulettePowerFragment : Fragment() {
-
-    private var _binding: RoulettePowerFragmentBinding? = null
-    private val binding get() = _binding!!
+class RoulettePowerFragment : BaseFragment<RoulettePowerFragmentBinding>() {
 
     private val localViewModel: LocalViewModel by viewModels()
 
@@ -37,8 +38,8 @@ class RoulettePowerFragment : Fragment() {
     private val randomNumberList = ArrayList<Int>()
     private val randomNumberPowerPlayList = ArrayList<Int>()
     private val selectedNumberList = ArrayList<Int>()
-    private var sectors = Array(69) { i -> (i + 1).toString() }
-    private var sectorsPowerPlay = Array(26) { i -> (i + 1).toString() }
+    private var sectors = Array(ROUND_POWER) { i -> (i + 1).toString() }
+    private var sectorsPowerPlay = Array(ROUND_POWER_PLAY) { i -> (i + 1).toString() }
 
     private var degree = 0f
 
@@ -49,18 +50,11 @@ class RoulettePowerFragment : Fragment() {
         sectorsPowerPlay.reverse()
     }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = RoulettePowerFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): RoulettePowerFragmentBinding {
+        return RoulettePowerFragmentBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,7 +90,7 @@ class RoulettePowerFragment : Fragment() {
 
     private fun saveGeneratedNumber(resultNumberList: ArrayList<Int>) {
         val lottoEntity = LottoEntity().apply {
-            type = GeneratorResultBottomSheetDialog.TYPE_POWER
+            type = TYPE_POWER
             category = Constants.CATEGORY_ROULETTE
             number1 = resultNumberList[0]
             number2 = resultNumberList[1]
@@ -136,7 +130,7 @@ class RoulettePowerFragment : Fragment() {
 
     private fun spinPowerPlayWheel() {
         randomNumberPowerPlayList.clear()
-        for (i in 1..26) {
+        for (i in 1..ROUND_POWER_PLAY) {
             randomNumberPowerPlayList.add(i)
         }
         randomNumberPowerPlayList.shuffle()

@@ -16,10 +16,7 @@ import com.reachfree.powerballandmega.utils.showWaitingDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SlotActivity : BaseActivity() {
-
-    private var _binding: SlotActivityBinding? = null
-    private val binding get() = _binding!!
+class SlotActivity : BaseActivity<SlotActivityBinding>({ SlotActivityBinding.inflate(it) }) {
 
     override var animationKind = ANIMATION_SLIDE_FROM_RIGHT
 
@@ -30,8 +27,6 @@ class SlotActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = SlotActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         setupToolbar()
         setupGamePager()
@@ -42,7 +37,6 @@ class SlotActivity : BaseActivity() {
         waitingDialog?.let {
             if (it.isShowing) it.dismiss()
         }
-        _binding = null
     }
 
     private fun setupToolbar() {

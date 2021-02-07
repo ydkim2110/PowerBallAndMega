@@ -16,10 +16,7 @@ import com.reachfree.powerballandmega.utils.showWaitingDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RouletteActivity : BaseActivity() {
-
-    private var _binding: RouletteActivityBinding? = null
-    private val binding get() = _binding!!
+class RouletteActivity : BaseActivity<RouletteActivityBinding>({ RouletteActivityBinding.inflate(it) }) {
 
     override var animationKind = ANIMATION_SLIDE_FROM_RIGHT
     private var gamePagerAdapter: GamePagerAdapter? = null
@@ -29,8 +26,6 @@ class RouletteActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = RouletteActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         setupToolbar()
         setupGamePager()
@@ -41,7 +36,6 @@ class RouletteActivity : BaseActivity() {
         waitingDialog?.let {
             if (it.isShowing) it.dismiss()
         }
-        _binding = null
     }
 
     private fun setupToolbar() {

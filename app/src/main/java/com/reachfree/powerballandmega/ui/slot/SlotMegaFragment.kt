@@ -9,18 +9,17 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reachfree.powerballandmega.data.local.LottoEntity
 import com.reachfree.powerballandmega.databinding.SlotMegaFragmentBinding
+import com.reachfree.powerballandmega.ui.base.BaseFragment
 import com.reachfree.powerballandmega.ui.bottomsheet.GeneratorResultBottomSheetDialog
 import com.reachfree.powerballandmega.ui.generator.GeneratedNumber
 import com.reachfree.powerballandmega.utils.*
+import com.reachfree.powerballandmega.utils.Constants.TYPE_MEGA
 import com.reachfree.powerballandmega.viewmodels.LocalViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 
 @AndroidEntryPoint
-class SlotMegaFragment : Fragment(), ISlotEventEnd {
-
-    private var _binding: SlotMegaFragmentBinding? = null
-    private val binding get() = _binding!!
+class SlotMegaFragment : BaseFragment<SlotMegaFragmentBinding>(), ISlotEventEnd {
 
     private val localViewModel: LocalViewModel by viewModels()
     private val slotAdapter by lazy { SlotAdapter(SlotAdapter.TYPE_MEGA) }
@@ -28,17 +27,11 @@ class SlotMegaFragment : Fragment(), ISlotEventEnd {
     private lateinit var generatedNumber: GeneratedNumber
     private var index = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = SlotMegaFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): SlotMegaFragmentBinding {
+        return SlotMegaFragmentBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,7 +66,7 @@ class SlotMegaFragment : Fragment(), ISlotEventEnd {
 
         generatedNumberList.filter { it.isSelected }.map {
             val lottoEntity = LottoEntity().apply {
-                type = GeneratorResultBottomSheetDialog.TYPE_MEGA
+                type = TYPE_MEGA
                 category = Constants.CATEGORY_SLOT
                 number1 = it.numbers[0]
                 number2 = it.numbers[1]

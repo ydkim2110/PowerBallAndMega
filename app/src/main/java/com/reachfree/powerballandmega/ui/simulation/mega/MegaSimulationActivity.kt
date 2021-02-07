@@ -20,10 +20,7 @@ import com.reachfree.powerballandmega.utils.*
 import com.reachfree.powerballandmega.utils.Constants.ROUND_MEGA
 import com.reachfree.powerballandmega.utils.Constants.ROUND_MEGA_PLAY
 
-class MegaSimulationActivity : BaseActivity() {
-
-    private var _binding: MegaSimulationActivityBinding? = null
-    private val binding get() = _binding!!
+class MegaSimulationActivity : BaseActivity<MegaSimulationActivityBinding>({ MegaSimulationActivityBinding.inflate(it) }) {
 
     override var animationKind = ANIMATION_DEFAULT
 
@@ -39,8 +36,6 @@ class MegaSimulationActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = MegaSimulationActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         passedData = intent.getParcelableArrayListExtra(EXTRA_MEGA_BALL_LIST)
 
@@ -55,7 +50,6 @@ class MegaSimulationActivity : BaseActivity() {
         waitingDialog?.let {
             if (it.isShowing) it.dismiss()
         }
-        _binding = null
     }
 
     private fun setupToolbar() {

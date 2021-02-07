@@ -19,10 +19,7 @@ import com.reachfree.powerballandmega.utils.*
 import com.reachfree.powerballandmega.utils.Constants.ROUND_POWER
 import com.reachfree.powerballandmega.utils.Constants.ROUND_POWER_PLAY
 
-class PowerSimulationActivity : BaseActivity() {
-
-    private var _binding: PowerSimulationActivityBinding? = null
-    private val binding get() = _binding!!
+class PowerSimulationActivity : BaseActivity<PowerSimulationActivityBinding>({ PowerSimulationActivityBinding.inflate(it) }) {
 
     override var animationKind = ANIMATION_DEFAULT
 
@@ -38,8 +35,6 @@ class PowerSimulationActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = PowerSimulationActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         passedData = intent.getParcelableArrayListExtra(EXTRA_POWER_BALL_LIST)
 
@@ -54,7 +49,6 @@ class PowerSimulationActivity : BaseActivity() {
         waitingDialog?.let {
             if (it.isShowing) it.dismiss()
         }
-        _binding = null
     }
 
     private fun setupToolbar() {

@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +42,7 @@ import com.reachfree.powerballandmega.ui.simulation.mega.MegaSimulationActivity
 import com.reachfree.powerballandmega.ui.simulation.power.PowerSimulationActivity
 import com.reachfree.powerballandmega.ui.slot.SlotActivity
 import com.reachfree.powerballandmega.utils.AppUtils
-import com.reachfree.powerballandmega.utils.NetworkConnection
+import com.reachfree.powerballandmega.utils.NetworkUtils
 import com.reachfree.powerballandmega.utils.runDelayed
 import com.reachfree.powerballandmega.utils.setOnSingleClickListener
 import com.reachfree.powerballandmega.viewmodels.HomeViewModel
@@ -52,10 +51,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class HomeActivity : BaseActivity() {
-
-    private var _binding: HomeActivityBinding? = null
-    private val binding get() = _binding!!
+class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inflate(it) }) {
 
     private val appUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
     private lateinit var updateListener: InstallStateUpdatedListener
@@ -82,7 +78,6 @@ class HomeActivity : BaseActivity() {
                     is HomeViewModel.PowerBallEvent.Success -> {
                         val result = event.resultList
                         setupPowerNumber(result.first())
-                        Log.d("DEBUG", "PowerBallEvent Finished!")
                         arrayListOfPower = ArrayList()
                         arrayListOfPower?.clear()
                         arrayListOfPower?.addAll(event.resultList)
@@ -104,7 +99,6 @@ class HomeActivity : BaseActivity() {
                     is HomeViewModel.MegaBallEvent.Success -> {
                         val result = event.resultList
                         setupMegaNumber(result.first())
-                        Log.d("DEBUG", "MegaBallEvent Finished!")
                         arrayListOfMega = ArrayList()
                         arrayListOfMega?.clear()
                         arrayListOfMega?.addAll(event.resultList)
@@ -169,13 +163,10 @@ class HomeActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = HomeActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         setupNetworkCheck()
         setupUpdateCheck()
         setupToolbar()
-        setupData()
 
         binding.cardviewMegaBall.setOnSingleClickListener {
             arrayListOfMega?.let {
@@ -190,21 +181,15 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    private fun setupData() {
-        homeViewModel.getRecentWinningNumbers()
-        homeViewModel.getAdvice()
-    }
-
     private fun setupNetworkCheck() {
-        val networkConnection = NetworkConnection(applicationContext)
-
-        networkConnection.observe(this) { isConnected ->
+        NetworkUtils.getNetworkLiveData(applicationContext).observe(this) { isConnected ->
             if (isConnected) {
                 binding.layoutConnected.visibility = View.VISIBLE
                 binding.layoutDisconnected.visibility = View.GONE
                 binding.layoutContainer.visibility = View.GONE
                 binding.pbHome.visibility = View.VISIBLE
-                setupData()
+                homeViewModel.getRecentWinningNumbers()
+                homeViewModel.getAdvice()
             } else {
                 binding.layoutConnected.visibility = View.GONE
                 binding.layoutDisconnected.visibility = View.VISIBLE
@@ -333,7 +318,7 @@ class HomeActivity : BaseActivity() {
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-//        loadAds()
+        loadAds()
     }
 
     private fun loadAds() {
@@ -419,11 +404,6 @@ class HomeActivity : BaseActivity() {
         }
         binding.txtMegaWinningNumbersTitle.text =
             "Winning Numbers: ${AppUtils.convertDrawDate(megaBallResponse.draw_date!!)}"
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     companion object {

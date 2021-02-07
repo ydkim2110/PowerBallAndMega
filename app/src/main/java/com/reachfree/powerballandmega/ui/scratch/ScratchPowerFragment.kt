@@ -10,18 +10,17 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reachfree.powerballandmega.data.local.LottoEntity
 import com.reachfree.powerballandmega.databinding.ScratchPowerFragmentBinding
+import com.reachfree.powerballandmega.ui.base.BaseFragment
 import com.reachfree.powerballandmega.ui.bottomsheet.GeneratorResultBottomSheetDialog
 import com.reachfree.powerballandmega.ui.generator.GeneratedNumber
 import com.reachfree.powerballandmega.utils.*
 import com.reachfree.powerballandmega.utils.Constants.CATEGORY_SCRATCH
+import com.reachfree.powerballandmega.utils.Constants.TYPE_POWER
 import com.reachfree.powerballandmega.viewmodels.LocalViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ScratchPowerFragment : Fragment() {
-
-    private var _binding: ScratchPowerFragmentBinding? = null
-    private val binding get() = _binding!!
+class ScratchPowerFragment : BaseFragment<ScratchPowerFragmentBinding>() {
 
     private val localViewModel: LocalViewModel by viewModels()
     private lateinit var scratchAdapter: ScratchAdapter
@@ -34,20 +33,14 @@ class ScratchPowerFragment : Fragment() {
     private var generatedNumber: GeneratedNumber? = null
 
     private val scratchResultDialog by lazy {
-        GeneratorResultBottomSheetDialog(generatedNumberList!!, GeneratorResultBottomSheetDialog.TYPE_POWER)
+        GeneratorResultBottomSheetDialog(generatedNumberList!!, TYPE_POWER)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = ScratchPowerFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): ScratchPowerFragmentBinding {
+        return ScratchPowerFragmentBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -150,7 +143,7 @@ class ScratchPowerFragment : Fragment() {
 
         generatedNumberList.filter { it.isSelected }.map {
             val lottoEntity = LottoEntity().apply {
-                type = GeneratorResultBottomSheetDialog.TYPE_POWER
+                type = TYPE_POWER
                 category = CATEGORY_SCRATCH
                 number1 = it.numbers[0]
                 number2 = it.numbers[1]

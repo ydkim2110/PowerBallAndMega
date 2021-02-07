@@ -10,16 +10,15 @@ import com.reachfree.powerballandmega.R
 import com.reachfree.powerballandmega.databinding.GeneratorActivityBinding
 import com.reachfree.powerballandmega.ui.base.BaseActivity
 import com.reachfree.powerballandmega.ui.common.GamePagerAdapter
+import com.reachfree.powerballandmega.ui.generator.mega.GeneratorMegaFragment
+import com.reachfree.powerballandmega.ui.generator.power.GeneratorPowerFragment
 import com.reachfree.powerballandmega.utils.loadAds
 import com.reachfree.powerballandmega.utils.showADMOB
 import com.reachfree.powerballandmega.utils.showWaitingDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GeneratorActivity : BaseActivity() {
-
-    private var _binding: GeneratorActivityBinding? = null
-    private val binding get() = _binding!!
+class GeneratorActivity : BaseActivity<GeneratorActivityBinding>({ GeneratorActivityBinding.inflate(it) }) {
 
     override var animationKind = ANIMATION_SLIDE_FROM_RIGHT
 
@@ -30,8 +29,6 @@ class GeneratorActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = GeneratorActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         setupToolbar()
         setupGamePager()
@@ -42,7 +39,6 @@ class GeneratorActivity : BaseActivity() {
         waitingDialog?.let {
             if (it.isShowing) it.dismiss()
         }
-        _binding = null
     }
 
     private fun setupToolbar() {

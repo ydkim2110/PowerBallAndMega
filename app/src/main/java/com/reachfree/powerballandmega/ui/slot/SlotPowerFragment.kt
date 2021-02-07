@@ -8,21 +8,20 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.reachfree.powerballandmega.data.local.LottoEntity
 import com.reachfree.powerballandmega.databinding.SlotPowerFragmentBinding
+import com.reachfree.powerballandmega.ui.base.BaseFragment
 import com.reachfree.powerballandmega.ui.bottomsheet.GeneratorResultBottomSheetDialog
 import com.reachfree.powerballandmega.ui.generator.GeneratedNumber
 import com.reachfree.powerballandmega.ui.generator.NumberModel
 import com.reachfree.powerballandmega.utils.*
 import com.reachfree.powerballandmega.utils.Constants.ROUND_POWER
 import com.reachfree.powerballandmega.utils.Constants.ROUND_POWER_PLAY
+import com.reachfree.powerballandmega.utils.Constants.TYPE_POWER
 import com.reachfree.powerballandmega.viewmodels.LocalViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 
 @AndroidEntryPoint
-class SlotPowerFragment : Fragment(), ISlotEventEnd {
-
-    private var _binding: SlotPowerFragmentBinding? = null
-    private val binding get() = _binding!!
+class SlotPowerFragment : BaseFragment<SlotPowerFragmentBinding>(), ISlotEventEnd {
 
     private val localViewModel: LocalViewModel by viewModels()
     private val slotAdapter by lazy { SlotAdapter(SlotAdapter.TYPE_POWER) }
@@ -35,17 +34,11 @@ class SlotPowerFragment : Fragment(), ISlotEventEnd {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = SlotPowerFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): SlotPowerFragmentBinding {
+        return SlotPowerFragmentBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,7 +73,7 @@ class SlotPowerFragment : Fragment(), ISlotEventEnd {
 
         generatedNumberList.filter { it.isSelected }.map {
             val lottoEntity = LottoEntity().apply {
-                type = GeneratorResultBottomSheetDialog.TYPE_POWER
+                type = TYPE_POWER
                 category = Constants.CATEGORY_SLOT
                 number1 = it.numbers[0]
                 number2 = it.numbers[1]

@@ -20,16 +20,15 @@ import androidx.fragment.app.viewModels
 import com.reachfree.powerballandmega.R
 import com.reachfree.powerballandmega.data.local.LottoEntity
 import com.reachfree.powerballandmega.databinding.RouletteMegaFragmentBinding
+import com.reachfree.powerballandmega.ui.base.BaseFragment
 import com.reachfree.powerballandmega.ui.bottomsheet.GeneratorResultBottomSheetDialog
 import com.reachfree.powerballandmega.utils.*
+import com.reachfree.powerballandmega.utils.Constants.TYPE_MEGA
 import com.reachfree.powerballandmega.viewmodels.LocalViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RouletteMegaFragment : Fragment() {
-
-    private var _binding: RouletteMegaFragmentBinding? = null
-    private val binding get() = _binding!!
+class RouletteMegaFragment : BaseFragment<RouletteMegaFragmentBinding>() {
 
     private val localViewModel: LocalViewModel by viewModels()
 
@@ -48,17 +47,12 @@ class RouletteMegaFragment : Fragment() {
         sectors.reverse()
         sectorsMegaPlier.reverse()
     }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = RouletteMegaFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun getFragmentBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): RouletteMegaFragmentBinding {
+        return RouletteMegaFragmentBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,7 +88,7 @@ class RouletteMegaFragment : Fragment() {
 
     private fun saveGeneratedNumber(resultNumberList: ArrayList<Int>) {
         val lottoEntity = LottoEntity().apply {
-            type = GeneratorResultBottomSheetDialog.TYPE_MEGA
+            type = TYPE_MEGA
             category = Constants.CATEGORY_ROULETTE
             number1 = resultNumberList[0]
             number2 = resultNumberList[1]

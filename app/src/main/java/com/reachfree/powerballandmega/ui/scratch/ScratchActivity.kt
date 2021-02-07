@@ -16,10 +16,7 @@ import com.reachfree.powerballandmega.utils.showWaitingDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ScratchActivity : BaseActivity() {
-
-    private var _binding: ScratchActivityBinding? = null
-    private val binding get() = _binding!!
+class ScratchActivity : BaseActivity<ScratchActivityBinding>({ ScratchActivityBinding.inflate(it) }) {
 
     override var animationKind = ANIMATION_SLIDE_FROM_RIGHT
 
@@ -30,8 +27,6 @@ class ScratchActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ScratchActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         setupToolbar()
         setupGamePager()
@@ -42,7 +37,6 @@ class ScratchActivity : BaseActivity() {
         waitingDialog?.let {
             if (it.isShowing) it.dismiss()
         }
-        _binding = null
     }
 
     private fun setupToolbar() {

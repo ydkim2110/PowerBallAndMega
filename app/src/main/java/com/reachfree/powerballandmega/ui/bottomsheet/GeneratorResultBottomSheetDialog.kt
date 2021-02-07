@@ -13,6 +13,8 @@ import com.reachfree.powerballandmega.R
 import com.reachfree.powerballandmega.databinding.GeneratorResultBottomSheetDialogBinding
 import com.reachfree.powerballandmega.ui.generator.GeneratedNumber
 import com.reachfree.powerballandmega.utils.Constants.TYPE_CANCEL
+import com.reachfree.powerballandmega.utils.Constants.TYPE_MEGA
+import com.reachfree.powerballandmega.utils.Constants.TYPE_POWER
 import com.reachfree.powerballandmega.utils.Constants.TYPE_SAVE
 import com.reachfree.powerballandmega.utils.setOnSingleClickListener
 import com.reachfree.powerballandmega.viewmodels.LocalViewModel
@@ -26,8 +28,8 @@ class GeneratorResultBottomSheetDialog(
     private val binding get() = _binding!!
 
     private lateinit var generatorResultAdapter: GeneratorResultAdapter
-
     private lateinit var onGeneratorResultDialog: OnGeneratorResultDialog
+
     interface OnGeneratorResultDialog {
         fun onFinish(type: String, generatedNumberList: ArrayList<GeneratedNumber>? = null)
     }
@@ -46,7 +48,7 @@ class GeneratorResultBottomSheetDialog(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = GeneratorResultBottomSheetDialogBinding.inflate(layoutInflater)
+        _binding = GeneratorResultBottomSheetDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -101,7 +103,5 @@ class GeneratorResultBottomSheetDialog(
 
     companion object {
         const val TAG = "GeneratorResultBottomSheetDialog"
-        const val TYPE_POWER = "power"
-        const val TYPE_MEGA = "mega"
     }
 }

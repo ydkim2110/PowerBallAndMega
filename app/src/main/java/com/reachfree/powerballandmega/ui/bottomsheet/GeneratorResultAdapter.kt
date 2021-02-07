@@ -7,9 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.reachfree.powerballandmega.R
 import com.reachfree.powerballandmega.databinding.ItemGeneratorResultBinding
-import com.reachfree.powerballandmega.ui.bottomsheet.GeneratorResultBottomSheetDialog.Companion.TYPE_MEGA
-import com.reachfree.powerballandmega.ui.bottomsheet.GeneratorResultBottomSheetDialog.Companion.TYPE_POWER
 import com.reachfree.powerballandmega.ui.generator.GeneratedNumber
+import com.reachfree.powerballandmega.utils.Constants.TYPE_MEGA
+import com.reachfree.powerballandmega.utils.Constants.TYPE_POWER
 import com.reachfree.powerballandmega.utils.toastShort
 
 class GeneratorResultAdapter(

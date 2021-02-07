@@ -13,12 +13,9 @@ import com.reachfree.powerballandmega.data.remote.response.MegaBallResponse
 import com.reachfree.powerballandmega.databinding.MegaListActivityBinding
 import com.reachfree.powerballandmega.ui.base.BaseActivity
 
-class MegaListActivity : BaseActivity() {
+class MegaListActivity : BaseActivity<MegaListActivityBinding>({ MegaListActivityBinding.inflate(it) }) {
 
     override var animationKind = ANIMATION_SLIDE_FROM_BOTTOM
-
-    private var _binding: MegaListActivityBinding? = null
-    private val binding get() = _binding!!
 
     private val megaAdapter: MegaListAdapter by lazy { MegaListAdapter() }
     private var passedData: ArrayList<MegaBallResponse>? = null
@@ -26,8 +23,6 @@ class MegaListActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = MegaListActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         setupToolbar()
 
@@ -43,11 +38,6 @@ class MegaListActivity : BaseActivity() {
             rvMegaBallList.adapter = megaAdapter
             rvMegaBallList.addOnScrollListener(scrollListener)
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     private fun setupToolbar() {
