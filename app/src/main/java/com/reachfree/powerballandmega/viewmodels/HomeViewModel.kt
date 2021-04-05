@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.inappreview.InAppReviewView
 import com.reachfree.powerballandmega.data.remote.Resource
 import com.reachfree.powerballandmega.data.remote.repository.AdviceRepository
 import com.reachfree.powerballandmega.data.remote.repository.MegaBallRepository
@@ -12,6 +13,7 @@ import com.reachfree.powerballandmega.data.remote.response.AdviceResponse
 import com.reachfree.powerballandmega.data.remote.response.GenericResponse
 import com.reachfree.powerballandmega.data.remote.response.MegaBallResponse
 import com.reachfree.powerballandmega.data.remote.response.PowerBallResponse
+import com.reachfree.powerballandmega.ui.home.HomeActivity
 import com.reachfree.powerballandmega.utils.DispatcherProvider
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -70,7 +72,6 @@ class HomeViewModel @ViewModelInject constructor(
                         _advice.value = AdviceEvent.Success(result.data!!)
                     }
                 }
-
             } catch (e: Exception) {
                 Log.d("DEBUG", "${e.message}")
             }
@@ -117,6 +118,16 @@ class HomeViewModel @ViewModelInject constructor(
                 _megaBall.value = MegaBallEvent.Success(megaBallList)
             }
         }
+    }
+
+    private lateinit var inAppReviewView: InAppReviewView
+
+    fun setInAppReviewView(inAppReviewView: InAppReviewView) {
+        this.inAppReviewView = inAppReviewView
+    }
+
+    fun openInAppReview() {
+        inAppReviewView.showReviewFlow()
     }
 
     companion object {

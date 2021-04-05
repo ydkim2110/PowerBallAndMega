@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,9 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.inappreview.InAppReviewManager
+import com.example.inappreview.InAppReviewView
+import com.example.inappreview.dialog.InAppReviewPromptDialog
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -49,9 +53,10 @@ import com.reachfree.powerballandmega.viewmodels.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inflate(it) }) {
+class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inflate(it) }), InAppReviewView {
 
     private val appUpdateManager by lazy { AppUpdateManagerFactory.create(this) }
     private lateinit var updateListener: InstallStateUpdatedListener
@@ -65,7 +70,10 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
 
     private var powerBallJob: Job? = null
     private var megaBallJob: Job? = null
-    private var advicelJob: Job? = null
+    private var adviceJob: Job? = null
+
+    @Inject
+    lateinit var inAppReviewManager: InAppReviewManager
 
     override fun onStart() {
         super.onStart()
@@ -126,7 +134,7 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
             }
         }
 
-        advicelJob = lifecycleScope.launchWhenStarted {
+        adviceJob = lifecycleScope.launchWhenStarted {
             homeViewModel.advice.collect { event ->
                 when (event) {
                     is HomeViewModel.AdviceEvent.Success -> {
@@ -167,6 +175,9 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
         setupNetworkCheck()
         setupUpdateCheck()
         setupToolbar()
+
+        homeViewModel.setInAppReviewView(this)
+        homeViewModel.openInAppReview()
 
         binding.cardviewMegaBall.setOnSingleClickListener {
             arrayListOfMega?.let {
@@ -313,7 +324,7 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
         super.onStop()
         powerBallJob?.cancel()
         megaBallJob?.cancel()
-        advicelJob?.cancel()
+        adviceJob?.cancel()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -416,6 +427,14 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
         fun start(context: Context) {
             val intent = Intent(context, HomeActivity::class.java)
             context.startActivity(intent)
+        }
+    }
+
+    override fun showReviewFlow() {
+        if (inAppReviewManager.isEligibleForReview()) {
+            val dialog = InAppReviewPromptDialog()
+
+            dialog.show(supportFragmentManager, null)
         }
     }
 }
