@@ -10,7 +10,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.reachfree.powerballandmega.BuildConfig
 import com.reachfree.powerballandmega.data.remote.response.MegaBallResponse
 import com.reachfree.powerballandmega.data.remote.response.PowerBallResponse
 import com.reachfree.powerballandmega.databinding.MegaSimulationActivityBinding
@@ -32,13 +38,14 @@ class MegaSimulationActivity : BaseActivity<MegaSimulationActivityBinding>({ Meg
     private lateinit var simulationResultDialog: SimulationMegaResultDialog
 
     private var waitingDialog: AlertDialog? = null
-    private lateinit var interstitialAd: InterstitialAd
+    private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         passedData = intent.getParcelableArrayListExtra(EXTRA_MEGA_BALL_LIST)
 
+        loadAds()
         setupToolbar()
         setupRecyclerView()
         setupEditText()
@@ -52,6 +59,10 @@ class MegaSimulationActivity : BaseActivity<MegaSimulationActivityBinding>({ Meg
         }
     }
 
+    private fun loadAds() {
+        binding.adView.loadAd(AdRequest.Builder().build())
+    }
+
     private fun setupToolbar() {
         setSupportActionBar(binding.toolbar).apply {
             title = null
@@ -62,7 +73,6 @@ class MegaSimulationActivity : BaseActivity<MegaSimulationActivityBinding>({ Meg
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
-
     private fun setupRecyclerView() {
         binding.rvResult.apply {
             setHasFixedSize(true)
@@ -72,6 +82,8 @@ class MegaSimulationActivity : BaseActivity<MegaSimulationActivityBinding>({ Meg
     }
 
     private fun setupEditText() {
+        binding.edtNumber1.requestFocus()
+
         binding.edtNumber1.addTextChangedListener(megaTextWatcher)
         binding.edtNumber2.addTextChangedListener(megaTextWatcher)
         binding.edtNumber3.addTextChangedListener(megaTextWatcher)
@@ -289,13 +301,42 @@ class MegaSimulationActivity : BaseActivity<MegaSimulationActivityBinding>({ Meg
         if (showADMOB()) {
             waitingDialog = showWaitingDialog()
             waitingDialog?.show()
-            interstitialAd = loadAds(this, waitingDialog)
 
-            if (interstitialAd.isLoaded) {
-                interstitialAd.show()
-                return
-            }
+            val adRequest = AdRequest.Builder().build()
+            InterstitialAd.load(
+                this,
+                BuildConfig.ADMOB_INTERSTITIALAD_ID,
+                adRequest,
+                object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        waitingDialog?.dismiss()
+                        mInterstitialAd = null
+                    }
 
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        mInterstitialAd = interstitialAd
+                        mInterstitialAd?.show(this@MegaSimulationActivity)
+
+                        mInterstitialAd?.fullScreenContentCallback =
+                            object : FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    runDelayed(100) {
+                                        waitingDialog?.dismiss()
+                                        finish()
+                                    }
+                                }
+
+                                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                                    super.onAdFailedToShowFullScreenContent(adError)
+                                }
+
+                                override fun onAdShowedFullScreenContent() {
+                                    mInterstitialAd = null
+                                }
+                            }
+
+                    }
+                })
         } else {
             finish()
         }

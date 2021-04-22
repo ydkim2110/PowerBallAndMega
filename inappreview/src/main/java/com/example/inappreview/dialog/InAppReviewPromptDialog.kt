@@ -109,6 +109,6 @@ class InAppReviewPromptDialog : DialogFragment() {
     }
 
     private fun getLaterTime(): Long {
-        return System.currentTimeMillis() + TimeUnit.DAYS.toMillis(2)
+        return System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7)
     }
 }

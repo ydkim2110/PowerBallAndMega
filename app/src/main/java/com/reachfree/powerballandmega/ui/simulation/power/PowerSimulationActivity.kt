@@ -10,7 +10,13 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.reachfree.powerballandmega.BuildConfig
 import com.reachfree.powerballandmega.data.remote.response.PowerBallResponse
 import com.reachfree.powerballandmega.databinding.PowerSimulationActivityBinding
 import com.reachfree.powerballandmega.ui.base.BaseActivity
@@ -31,13 +37,14 @@ class PowerSimulationActivity : BaseActivity<PowerSimulationActivityBinding>({ P
     private lateinit var simulationResultDialog: SimulationPowerResultDialog
 
     private var waitingDialog: AlertDialog? = null
-    private lateinit var interstitialAd: InterstitialAd
+    private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         passedData = intent.getParcelableArrayListExtra(EXTRA_POWER_BALL_LIST)
 
+        loadAds()
         setupToolbar()
         setupRecyclerView()
         setupEditText()
@@ -49,6 +56,10 @@ class PowerSimulationActivity : BaseActivity<PowerSimulationActivityBinding>({ P
         waitingDialog?.let {
             if (it.isShowing) it.dismiss()
         }
+    }
+
+    private fun loadAds() {
+        binding.adView.loadAd(AdRequest.Builder().build())
     }
 
     private fun setupToolbar() {
@@ -70,6 +81,8 @@ class PowerSimulationActivity : BaseActivity<PowerSimulationActivityBinding>({ P
     }
 
     private fun setupEditText() {
+        binding.edtNumber1.requestFocus()
+
         binding.edtNumber1.addTextChangedListener(powerTextWatcher)
         binding.edtNumber2.addTextChangedListener(powerTextWatcher)
         binding.edtNumber3.addTextChangedListener(powerTextWatcher)
@@ -278,13 +291,42 @@ class PowerSimulationActivity : BaseActivity<PowerSimulationActivityBinding>({ P
         if (showADMOB()) {
             waitingDialog = showWaitingDialog()
             waitingDialog?.show()
-            interstitialAd = loadAds(this, waitingDialog)
 
-            if (interstitialAd.isLoaded) {
-                interstitialAd.show()
-                return
-            }
+            val adRequest = AdRequest.Builder().build()
+            InterstitialAd.load(
+                this,
+                BuildConfig.ADMOB_INTERSTITIALAD_ID,
+                adRequest,
+                object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        waitingDialog?.dismiss()
+                        mInterstitialAd = null
+                    }
 
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        mInterstitialAd = interstitialAd
+                        mInterstitialAd?.show(this@PowerSimulationActivity)
+
+                        mInterstitialAd?.fullScreenContentCallback =
+                            object : FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    runDelayed(100) {
+                                        waitingDialog?.dismiss()
+                                        finish()
+                                    }
+                                }
+
+                                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                                    super.onAdFailedToShowFullScreenContent(adError)
+                                }
+
+                                override fun onAdShowedFullScreenContent() {
+                                    mInterstitialAd = null
+                                }
+                            }
+
+                    }
+                })
         } else {
             finish()
         }

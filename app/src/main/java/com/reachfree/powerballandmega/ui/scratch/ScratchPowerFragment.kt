@@ -165,7 +165,6 @@ class ScratchPowerFragment : BaseFragment<ScratchPowerFragmentBinding>() {
         }
     }
 
-
     override fun onMultiWindowModeChanged(isInMultiWindowMode: Boolean) {
         super.onMultiWindowModeChanged(isInMultiWindowMode)
         val height = binding.rvScratch.height

@@ -5,14 +5,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
-import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.reachfree.powerballandmega.BuildConfig
 import com.reachfree.powerballandmega.R
 import com.reachfree.powerballandmega.databinding.GeneratorActivityBinding
 import com.reachfree.powerballandmega.ui.base.BaseActivity
 import com.reachfree.powerballandmega.ui.common.GamePagerAdapter
 import com.reachfree.powerballandmega.ui.generator.mega.GeneratorMegaFragment
 import com.reachfree.powerballandmega.ui.generator.power.GeneratorPowerFragment
-import com.reachfree.powerballandmega.utils.loadAds
+import com.reachfree.powerballandmega.utils.runDelayed
 import com.reachfree.powerballandmega.utils.showADMOB
 import com.reachfree.powerballandmega.utils.showWaitingDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,11 +31,12 @@ class GeneratorActivity : BaseActivity<GeneratorActivityBinding>({ GeneratorActi
     private var gamePagerAdapter: GamePagerAdapter? = null
     private var waitingDialog: AlertDialog? = null
 
-    private lateinit var interstitialAd: InterstitialAd
+    private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        loadAds()
         setupToolbar()
         setupGamePager()
     }
@@ -39,6 +46,10 @@ class GeneratorActivity : BaseActivity<GeneratorActivityBinding>({ GeneratorActi
         waitingDialog?.let {
             if (it.isShowing) it.dismiss()
         }
+    }
+
+    private fun loadAds() {
+        binding.adView.loadAd(AdRequest.Builder().build())
     }
 
     private fun setupToolbar() {
@@ -65,13 +76,42 @@ class GeneratorActivity : BaseActivity<GeneratorActivityBinding>({ GeneratorActi
         if (showADMOB()) {
             waitingDialog = showWaitingDialog()
             waitingDialog?.show()
-            interstitialAd = loadAds(this, waitingDialog)
 
-            if (interstitialAd.isLoaded) {
-                interstitialAd.show()
-                return
-            }
+            val adRequest = AdRequest.Builder().build()
+            InterstitialAd.load(
+                this,
+                BuildConfig.ADMOB_INTERSTITIALAD_ID,
+                adRequest,
+                object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        waitingDialog?.dismiss()
+                        mInterstitialAd = null
+                    }
 
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        mInterstitialAd = interstitialAd
+                        mInterstitialAd?.show(this@GeneratorActivity)
+
+                        mInterstitialAd?.fullScreenContentCallback =
+                            object : FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    runDelayed(100) {
+                                        waitingDialog?.dismiss()
+                                        finish()
+                                    }
+                                }
+
+                                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                                    super.onAdFailedToShowFullScreenContent(adError)
+                                }
+
+                                override fun onAdShowedFullScreenContent() {
+                                    mInterstitialAd = null
+                                }
+                            }
+
+                    }
+                })
         } else {
             finish()
         }

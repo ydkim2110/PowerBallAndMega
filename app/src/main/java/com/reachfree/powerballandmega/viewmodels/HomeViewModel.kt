@@ -10,14 +10,15 @@ import com.reachfree.powerballandmega.data.remote.repository.AdviceRepository
 import com.reachfree.powerballandmega.data.remote.repository.MegaBallRepository
 import com.reachfree.powerballandmega.data.remote.repository.PowerBallRepository
 import com.reachfree.powerballandmega.data.remote.response.AdviceResponse
-import com.reachfree.powerballandmega.data.remote.response.GenericResponse
 import com.reachfree.powerballandmega.data.remote.response.MegaBallResponse
 import com.reachfree.powerballandmega.data.remote.response.PowerBallResponse
-import com.reachfree.powerballandmega.ui.home.HomeActivity
 import com.reachfree.powerballandmega.utils.DispatcherProvider
-import kotlinx.coroutines.*
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 
 class HomeViewModel @ViewModelInject constructor(
     private val powerRepository: PowerBallRepository,
@@ -127,6 +128,10 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     fun openInAppReview() {
+        inAppReviewView.showReviewFlow()
+    }
+
+    private fun checkIfNeedsReviewPrompt() {
         inAppReviewView.showReviewFlow()
     }
 

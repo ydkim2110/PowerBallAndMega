@@ -17,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import com.google.android.gms.ads.AdRequest
 import com.reachfree.powerballandmega.R
 import com.reachfree.powerballandmega.data.local.LottoEntity
 import com.reachfree.powerballandmega.databinding.RouletteMegaFragmentBinding
@@ -58,7 +59,12 @@ class RouletteMegaFragment : BaseFragment<RouletteMegaFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadAds()
         setupButton()
+    }
+
+    private fun loadAds() {
+        binding.adView.loadAd(AdRequest.Builder().build())
     }
 
     private fun setupButton() {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.ads.AdRequest
 import com.reachfree.powerballandmega.data.remote.response.PowerBallResponse
 import com.reachfree.powerballandmega.databinding.PowerListActivityBinding
 import com.reachfree.powerballandmega.ui.base.BaseActivity
@@ -37,6 +38,8 @@ class PowerListActivity : BaseActivity<PowerListActivityBinding>({ PowerListActi
             powerAdapter.submitList(data!!)
             rvPowerBallList.adapter = powerAdapter
         }
+
+        loadAds()
     }
 
     private fun setupToolbar() {
@@ -47,6 +50,10 @@ class PowerListActivity : BaseActivity<PowerListActivityBinding>({ PowerListActi
         binding.toolbarTitle.text = "Power Ball"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    private fun loadAds() {
+        binding.adView.loadAd(AdRequest.Builder().build())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

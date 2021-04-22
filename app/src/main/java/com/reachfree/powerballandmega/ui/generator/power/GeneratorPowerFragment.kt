@@ -8,6 +8,7 @@ import android.widget.ScrollView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.gms.ads.AdRequest
 import com.reachfree.powerballandmega.data.local.LottoEntity
 import com.reachfree.powerballandmega.databinding.GeneratorPowerFragmentBinding
 import com.reachfree.powerballandmega.ui.base.BaseFragment

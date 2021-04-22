@@ -14,6 +14,14 @@ interface InAppReviewPreferences {
 
     fun setRateLater(time: Long)
 
+    fun getFirstTime(): Long
+
+    fun setFirstTime(time: Long)
+
+    fun getFirstLaunch(): Boolean
+
+    fun setFirstLaunch(isFirst: Boolean)
+
     fun clearIfUserDidNotRate()
 
 }

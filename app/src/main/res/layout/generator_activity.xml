@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.generator.GeneratorActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -73,23 +74,16 @@
         app:layout_constraintTop_toBottomOf="@id/app_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/ad_background" />
+        app:layout_constraintBottom_toTopOf="@+id/ad_view" />
 
-    <LinearLayout
-        android:id="@+id/ad_background"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
+        android:layout_height="@dimen/ad_banner_height"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/ADMOB_BANNER_ID"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:id="@+id/ad_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,10 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
@@ -19,9 +16,6 @@ import com.example.inappreview.InAppReviewManager
 import com.example.inappreview.InAppReviewView
 import com.example.inappreview.dialog.InAppReviewPromptDialog
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -30,7 +24,6 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.tasks.Task
-import com.reachfree.powerballandmega.BuildConfig
 import com.reachfree.powerballandmega.R
 import com.reachfree.powerballandmega.data.remote.response.MegaBallResponse
 import com.reachfree.powerballandmega.data.remote.response.PowerBallResponse
@@ -172,6 +165,7 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        loadAds()
         setupNetworkCheck()
         setupUpdateCheck()
         setupToolbar()
@@ -327,34 +321,9 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
         adviceJob?.cancel()
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        loadAds()
-    }
-
     private fun loadAds() {
-        MobileAds.initialize(this) {}
-        val adRequest = AdRequest.Builder().build()
-        val adView = AdView(this)
-        adView.adSize = AdSize.SMART_BANNER
-        adView.adUnitId = BuildConfig.ADMOB_BANNER_ID
-
-        val heightDP = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            AppUtils.getAdViewHeightDP(this).toFloat(),
-            resources.displayMetrics
-        ).toInt()
-
-        binding.adContainer.layoutParams = LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            heightDP
-        )
-
-        binding.adContainer.addView(adView)
-
-        adView.loadAd(adRequest)
+        binding.adView.loadAd(AdRequest.Builder().build())
     }
-
 
     override fun onBackPressed() {
         if (binding.drawLayout.isDrawerOpen(GravityCompat.START)) {
@@ -417,7 +386,19 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
             "Winning Numbers: ${AppUtils.convertDrawDate(megaBallResponse.draw_date!!)}"
     }
 
+    override fun showReviewFlow() {
+        inAppReviewManager.isFirstTime()
+
+        if (inAppReviewManager.isEligibleForReview()) {
+            val dialog = InAppReviewPromptDialog()
+
+            dialog.show(supportFragmentManager, null)
+        }
+
+    }
+
     companion object {
+        private const val TAG = "HomeActivity"
         const val DRAWER_CLOSE_DELAY = 300L
         const val TIME_EXIT_DELAY = 1500L
 
@@ -430,11 +411,4 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
         }
     }
 
-    override fun showReviewFlow() {
-        if (inAppReviewManager.isEligibleForReview()) {
-            val dialog = InAppReviewPromptDialog()
-
-            dialog.show(supportFragmentManager, null)
-        }
-    }
 }

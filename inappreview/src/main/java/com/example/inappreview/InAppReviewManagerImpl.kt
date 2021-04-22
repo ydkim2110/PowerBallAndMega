@@ -42,10 +42,22 @@ class InAppReviewManagerImpl @Inject constructor(
                 || (inAppReviewPreferences.hasUserChosenRateLater() && enoughTimePassed())
     }
 
+    override fun isFirstTime() {
+        if (inAppReviewPreferences.getFirstLaunch()) {
+            inAppReviewPreferences.setUserChosenRateLater(true)
+            inAppReviewPreferences.setRateLater(getLaterTime())
+            inAppReviewPreferences.setFirstLaunch(false)
+        }
+    }
+
+    private fun getLaterTime(): Long {
+        return System.currentTimeMillis() + TimeUnit.DAYS.toMillis(5)
+    }
+
     private fun enoughTimePassed(): Boolean {
         val rateLaterTimestamp = inAppReviewPreferences.getRateLaterTime()
 
-        return abs(rateLaterTimestamp - System.currentTimeMillis()) >= TimeUnit.DAYS.toMillis(2)
+        return abs(rateLaterTimestamp - System.currentTimeMillis()) >= TimeUnit.DAYS.toMillis(7)
     }
 
     override fun startReview(activity: Activity) {

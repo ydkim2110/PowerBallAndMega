@@ -9,6 +9,7 @@ import android.widget.AbsListView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
 import com.reachfree.powerballandmega.data.remote.response.MegaBallResponse
 import com.reachfree.powerballandmega.databinding.MegaListActivityBinding
 import com.reachfree.powerballandmega.ui.base.BaseActivity
@@ -38,6 +39,8 @@ class MegaListActivity : BaseActivity<MegaListActivityBinding>({ MegaListActivit
             rvMegaBallList.adapter = megaAdapter
             rvMegaBallList.addOnScrollListener(scrollListener)
         }
+
+        loadAds()
     }
 
     private fun setupToolbar() {
@@ -48,6 +51,10 @@ class MegaListActivity : BaseActivity<MegaListActivityBinding>({ MegaListActivit
         binding.toolbarTitle.text = "Mega Millions"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    private fun loadAds() {
+        binding.adView.loadAd(AdRequest.Builder().build())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

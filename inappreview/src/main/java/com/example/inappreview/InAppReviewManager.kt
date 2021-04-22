@@ -8,4 +8,5 @@ interface InAppReviewManager {
 
     fun isEligibleForReview(): Boolean
 
+    fun isFirstTime()
 }

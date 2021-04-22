@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnSpin">
+        app:layout_constraintBottom_toTopOf="@id/bottom_layout">
 
         <androidx.core.widget.NestedScrollView
             android:overScrollMode="never"
@@ -133,40 +133,42 @@
 
     </FrameLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSpin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Spin"
-        android:textSize="16sp"
-        android:textColor="@android:color/white"
-        android:fontFamily="@font/ubuntu_medium"
-        android:includeFontPadding="false"
-        android:background="@null"
-        android:backgroundTint="@color/colorAction"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/ad_background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <LinearLayout
-        android:id="@+id/ad_background"
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:background="@color/colorBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:id="@+id/ad_container"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSpin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Spin"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/ubuntu_medium"
+            android:includeFontPadding="false"
+            android:background="@null"
+            android:backgroundTint="@color/colorAction"
+            app:cornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/ad_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ad_banner_height"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/ADMOB_BANNER_ID" />
 
     </LinearLayout>
 
