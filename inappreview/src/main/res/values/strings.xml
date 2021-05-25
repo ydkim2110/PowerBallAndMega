@@ -1,4 +1,8 @@
 <resources>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="in_app_review_title">Rate this app</string>
+    <string name="in_app_review_message">If you enjoy using this app, would you mind taking a moment to rate it? It won\'t take more than a minute. Thank you for your support!</string>
+    <string name="rate_now">Rate Now</string>
+    <string name="rate_later">Rate Later</string>
 </resources>

@@ -71,6 +71,8 @@ class SlotActivity : BaseActivity<SlotActivityBinding>({ SlotActivityBinding.inf
     }
 
     override fun onBackPressed() {
+        if (SlotPowerFragment.isAnimated || SlotMegaFragment.isAnimated) return
+
         if (showADMOB()) {
             waitingDialog = showWaitingDialog()
             waitingDialog?.show()

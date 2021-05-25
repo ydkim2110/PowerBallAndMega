@@ -1,7 +1,6 @@
 package com.reachfree.powerballandmega.viewmodels
 
 import android.util.Log
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.inappreview.InAppReviewView
@@ -13,14 +12,17 @@ import com.reachfree.powerballandmega.data.remote.response.AdviceResponse
 import com.reachfree.powerballandmega.data.remote.response.MegaBallResponse
 import com.reachfree.powerballandmega.data.remote.response.PowerBallResponse
 import com.reachfree.powerballandmega.utils.DispatcherProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
+import javax.inject.Inject
 
-class HomeViewModel @ViewModelInject constructor(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val powerRepository: PowerBallRepository,
     private val megaRepository: MegaBallRepository,
     private val adviceRepository: AdviceRepository,

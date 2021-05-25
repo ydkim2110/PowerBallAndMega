@@ -1,19 +1,20 @@
 package com.reachfree.powerballandmega.viewmodels
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.reachfree.powerballandmega.data.remote.Resource
 import com.reachfree.powerballandmega.data.remote.repository.PowerBallRepository
 import com.reachfree.powerballandmega.data.remote.response.PowerBallResponse
 import com.reachfree.powerballandmega.utils.DispatcherProvider
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class PowerBallViewModel @ViewModelInject constructor(
+@HiltViewModel
+class PowerBallViewModel @Inject constructor(
     private val repository: PowerBallRepository,
     private val dispatchers: DispatcherProvider
 ) : ViewModel() {

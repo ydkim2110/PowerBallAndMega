@@ -10,6 +10,7 @@ import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.tasks.Task
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.text.SimpleDateFormat
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.math.abs
@@ -37,6 +38,11 @@ class InAppReviewManagerImpl @Inject constructor(
     }
 
     override fun isEligibleForReview(): Boolean {
+        Log.d("DEBUG", "hasUserRatedApp: ${inAppReviewPreferences.hasUserRatedApp()}")
+        Log.d("DEBUG", "hasUserChosenRateLater: ${inAppReviewPreferences.hasUserChosenRateLater()}")
+        Log.d("DEBUG", "getRateLaterTime: ${SimpleDateFormat("yyyy-MM-dd").format(inAppReviewPreferences.getRateLaterTime())}")
+        Log.d("DEBUG", "enoughTimePassed: ${enoughTimePassed()}")
+
         return (!inAppReviewPreferences.hasUserRatedApp()
                 && !inAppReviewPreferences.hasUserChosenRateLater() && enoughTimePassed())
                 || (inAppReviewPreferences.hasUserChosenRateLater() && enoughTimePassed())

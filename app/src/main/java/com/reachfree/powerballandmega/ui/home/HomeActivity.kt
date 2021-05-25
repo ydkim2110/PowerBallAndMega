@@ -390,9 +390,12 @@ class HomeActivity : BaseActivity<HomeActivityBinding>({ HomeActivityBinding.inf
         inAppReviewManager.isFirstTime()
 
         if (inAppReviewManager.isEligibleForReview()) {
+            Log.d(TAG, "showReviewFlow: true!!")
             val dialog = InAppReviewPromptDialog()
 
             dialog.show(supportFragmentManager, null)
+        } else {
+            Log.d(TAG, "showReviewFlow: false!!")
         }
 
     }

@@ -15,31 +15,12 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:id="@+id/sadFace"
+            android:id="@+id/img_app_logo"
             android:layout_width="@dimen/ratePromptFaceSize"
             android:layout_height="@dimen/ratePromptFaceSize"
             android:layout_margin="@dimen/largeMargin"
-            android:src="@drawable/sad_face"
+            android:src="@drawable/app_logo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/progressBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/promptProgressMargin"
-            android:src="@drawable/progress_black"
-            app:layout_constraintBottom_toBottomOf="@id/sadFace"
-            app:layout_constraintEnd_toStartOf="@id/happyFace"
-            app:layout_constraintStart_toEndOf="@id/sadFace"
-            app:layout_constraintTop_toTopOf="@id/sadFace" />
-
-        <ImageView
-            android:id="@+id/happyFace"
-            android:layout_width="@dimen/ratePromptFaceSize"
-            android:layout_height="@dimen/ratePromptFaceSize"
-            android:layout_margin="@dimen/largeMargin"
-            android:src="@drawable/happy_face"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,11 +30,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/defaultMargin"
             android:gravity="center_horizontal"
-            android:text="Title"
+            android:text="@string/in_app_review_title"
             android:textSize="@dimen/ratePromptTitleTextSize"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sadFace" />
+            app:layout_constraintTop_toBottomOf="@id/img_app_logo" />
 
         <TextView
             android:id="@+id/reviewPromptText"
@@ -61,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/defaultMargin"
             android:gravity="center"
-            android:text="Message"
+            android:text="@string/in_app_review_message"
             android:textSize="@dimen/ratePromptMessageTextSize"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,8 +67,11 @@
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:text="RateNow"
-                android:textSize="@dimen/promptButtonTextSize" />
+                android:text="@string/rate_now"
+                android:textSize="@dimen/promptButtonTextSize"
+                android:textColor="@android:color/holo_red_dark"
+                android:textStyle="bold" />
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -96,7 +82,6 @@
             android:layout_marginTop="@dimen/buttonMarginTop"
             android:layout_marginBottom="@dimen/defaultMargin"
             android:paddingBottom="@dimen/defaultMargin"
-            app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,8 +93,11 @@
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:text="RateLater"
+                android:text="@string/rate_later"
                 android:textSize="@dimen/promptButtonTextSize" />
+
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
